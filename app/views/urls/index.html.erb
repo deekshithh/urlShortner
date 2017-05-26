@@ -1,0 +1,6 @@
+<p>Please Enter THe Url</p>
+<%= form_for @short_url, :url => urls_path(@short_url) do |f| %>
+    <%= f.label :original_url %><br />
+    <%= f.text_field :original_url %>
+    <%= f.submit %>
+<% end %>
