@@ -7,20 +7,21 @@ class UrlsController < ApplicationController
   def create
   	@short_url = ShortUrl.new(url_params)
   	if @short_url.save
-  	   redirect_to display_url_path(@short_url.id)
+      @short_url_name = @short_url.generate_short_url
   	else
-        redirect_to root_path
+      redirect_to root_path
   	end
   end
-
-  def diplay
-  end
-
+  
   def original_redirect
   	short = params[:short]
   	id = ShortUrl.decrypt_url(short)
   	@short_url = ShortUrl.find(id)
-  	redirect_to "http://#{@short_url.original_url}"
+    if @short_url
+      redirect_to "http://#{@short_url.original_url}"
+    else
+      redirect_to root_path
+    end
   end
 
   protected
