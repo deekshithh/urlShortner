@@ -1,6 +1,52 @@
-<p>Please Enter THe Url</p>
-<%= form_for @short_url, :url => urls_path(@short_url) do |f| %>
-    <%= f.label :original_url %><br />
-    <%= f.text_field :original_url %>
-    <%= f.submit %>
-<% end %>
+
+ <!-- Header -->
+    <header>
+        <div class="container" id="maincontent" tabindex="-1">
+            <div class="row" >
+                <div class="col-lg-12">
+                    <div class="intro-text">
+                        <h1 class="name">Shorten your URL</h1>
+                        <%= image_tag "url.png", :width => 150, :height => 150 %>
+                        <%= form_for @short_url, :url => urls_path(@short_url), remote: true, :authenticity_token => true, class: "form-inline" do |f| %>
+	                        <div class="form-group">
+	                        <%= f.text_field :original_url, :class => "form-control", style: "display: inline; height: 50px; width: 70%" %>
+  							</div>
+	                        <%= f.submit :class => "btn btn-primary btn-lg ", style: "margin-top: 2%", id: "data_submit",data: { disable_with: "Loading..." }%>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Your short URL</h4>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-success alert-dismissible" role="alert" data-dismiss="alert" id ="copy_success">
+            <strong>URL copied to clipboard!</strong></div>
+            <div id ="copy_short_url" ></div>
+        </div>
+        <div class="modal-footer">
+        <button onclick="copyToClipboard('#redirect_link')", class="btn btn-default">Copy Short Url</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id = "copy_url">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$("#data_submit").click(function () {
+    if ($("#short_url_original_url").val() == ""){
+        alert("Please enter an URL ");
+        return false;
+    }
+});
+</script>

@@ -2,7 +2,7 @@ class ShortUrl < ActiveRecord::Base
 	 validates :original_url, presence: true
 
 	 before_save :remove_protocol_type
-	 LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split(//)
+	 LETTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(//)
 
 	 
 
@@ -12,20 +12,21 @@ class ShortUrl < ActiveRecord::Base
 	 	sum = 0
 	 	count = 0
 	 	array.each do |value|
-	 		sum += 62*count + LETTERS.index(value)
+	 		sum += (62**count) * (LETTERS.index(value))
 	 		count += 1
 	 	end
+	 	Rails.logger.info sum
 	 	sum.to_i
 	 end
 
-	 def generate_short_url
+	 def generate_short_url(domain)
 	 		digit_array = convert_to_sixty_two_base
 	 		string = ""
 	 		digit_array.each do |value|
 	 			digit = LETTERS[value]
 	 			string << digit
 	 		end
-	 		string
+	 		domain << string
 	 end
 
 	 protected
